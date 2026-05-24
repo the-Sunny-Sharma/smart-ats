@@ -11,7 +11,7 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 | Service | URL |
 |---|---|
 | **Frontend** | [https://talent-flow-ai-the-sunny-sharma.vercel.app](https://talent-flow-ai-the-sunny-sharma.vercel.app) |
-| **API Gateway** | [https://api-gateway-production.up.railway.app](https://api-gateway-production.up.railway.app) |
+| **API Gateway** | [https://smart-ats-production.up.railway.app](https://smart-ats-production.up.railway.app) |
 | **AI Service** | [https://ai-service-production-645a.up.railway.app](https://ai-service-production-645a.up.railway.app) |
 
 ### Demo Accounts
@@ -155,7 +155,7 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 └───────────────────────┬─────────────────────────────────┘
                         │ REST (Axios)
 ┌───────────────────────▼─────────────────────────────────┐
-│      Express.js API Gateway — Railway (Port 5000)         │
+│   Express.js API — smart-ats-production.up.railway.app    │
 │   Auth · Jobs · Candidates · Applications · Analytics    │
 │   Interviews · Notifications · Payments                  │
 └──────────┬──────────────────────────┬───────────────────┘
@@ -316,7 +316,7 @@ npm run dev        # starts on port 3000
 
 ## API Reference
 
-Base URL: `https://ai-service-production-645a.up.railway.app/api`
+Base URL: `https://smart-ats-production.up.railway.app/api`
 
 All protected routes require: `Authorization: Bearer <token>`
 
@@ -500,6 +500,6 @@ smart-ats/
 - **Platform:** Smart ATS Hiring Suite / TalentFlow AI
 - **Stack:** Next.js 14 + Express.js + MongoDB Atlas + FastAPI + Groq AI
 - **Deployed Frontend:** https://talent-flow-ai-the-sunny-sharma.vercel.app
-- **Deployed API:** https://ai-service-production-645a.up.railway.app
+- **Deployed API:** https://smart-ats-production.up.railway.app
 - **Submitted by:** Sunny Yogendra Sharma
 - **Date:** May 2026
