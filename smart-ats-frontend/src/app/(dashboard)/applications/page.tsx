@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
@@ -12,7 +13,7 @@ import { Star, Zap, ChevronRight, Loader2, LayoutGrid, List } from 'lucide-react
 
 const STAGES: ApplicationStage[] = ['applied', 'screening', 'interview', 'offer', 'hired', 'rejected'];
 
-export default function ApplicationsPage() {
+function ApplicationsContent() {
   const qc = useQueryClient();
   const searchParams = useSearchParams();
   const jobId = searchParams.get('jobId');
@@ -219,5 +220,27 @@ export default function ApplicationsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ApplicationsPage() {
+  return (
+    <Suspense fallback={
+      <div className="space-y-5">
+        <div className="page-header">
+          <div>
+            <div className="h-7 w-40 bg-slate-100 animate-pulse rounded" />
+            <div className="h-4 w-20 bg-slate-100 animate-pulse rounded mt-1" />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="card h-40 animate-pulse bg-slate-100" />
+          ))}
+        </div>
+      </div>
+    }>
+      <ApplicationsContent />
+    </Suspense>
   );
 }

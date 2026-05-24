@@ -15,7 +15,7 @@
  *  7. Backend confirms with Cashfree and marks user isPremium = true
  */
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Zap, Check, Loader2, Sparkles, Shield, ArrowLeft, Crown } from 'lucide-react';
 import Link from 'next/link';
@@ -59,7 +59,7 @@ const loadCashfreeSDK = (env: 'sandbox' | 'production'): Promise<any> =>
     document.head.appendChild(script);
   });
 
-export default function PremiumPage() {
+function PremiumContent() {
   const searchParams = useSearchParams();
   const [payState, setPayState] = useState<PayState>('idle');
   const [phone, setPhone] = useState('');
@@ -298,5 +298,27 @@ export default function PremiumPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PremiumPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-5xl space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-slate-100 animate-pulse rounded-lg" />
+          <div>
+            <div className="h-7 w-48 bg-slate-100 animate-pulse rounded" />
+            <div className="h-4 w-64 bg-slate-100 animate-pulse rounded mt-1" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="h-96 bg-slate-100 animate-pulse rounded-2xl" />
+          <div className="card h-96 animate-pulse" />
+        </div>
+      </div>
+    }>
+      <PremiumContent />
+    </Suspense>
   );
 }
