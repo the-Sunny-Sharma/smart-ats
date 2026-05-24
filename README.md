@@ -6,6 +6,26 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 
 ---
 
+## Live Demo
+
+| Service | URL |
+|---|---|
+| **Frontend** | [https://talent-flow-ai-the-sunny-sharma.vercel.app](https://talent-flow-ai-the-sunny-sharma.vercel.app) |
+| **API Gateway** | [https://api-gateway-production.up.railway.app](https://api-gateway-production.up.railway.app) |
+| **AI Service** | [https://ai-service-production-645a.up.railway.app](https://ai-service-production-645a.up.railway.app) |
+
+### Demo Accounts
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@talentflow.ai` | `Admin@123` |
+| Recruiter | `recruiter@talentflow.ai` | `Recruiter@123` |
+| Hiring Manager | `hiring@talentflow.ai` | `Manager@123` |
+
+> Run `node seed.js` inside `backend/api-gateway/` to create these accounts + sample data.
+
+---
+
 ## Screenshots
 
 ### Landing Page
@@ -40,7 +60,7 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 
 ### Semantic Ranking
 ![Semantic Ranking](screenshots/semantic-ranking.png)
-*Per-job AI ranking tab — candidates ordered by semantic similarity score (all-MiniLM-L6-v2 · cosine distance). Shows rank, candidate name & email, semantic score bar, AI score badge (Excellent / Good / …), current stage, and top matched skills.*
+*Per-job AI ranking tab — candidates ordered by semantic similarity score. Shows rank, candidate name & email, semantic score bar, AI score badge (Excellent / Good / …), current stage, and top matched skills.*
 
 ---
 
@@ -76,7 +96,7 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 
 ### Cashfree Checkout
 ![Payment](screenshots/payment.png)
-*Cashfree sandbox checkout showing ₹999 order for testMerchantName — UPI QR, Pay by UPI ID, Card (Visa/Mastercard/RuPay), Wallets, Net Banking, Paylater, and Cardless EMI options.*
+*Cashfree sandbox checkout showing ₹999 order — UPI QR, Pay by UPI ID, Card (Visa/Mastercard/RuPay), Wallets, Net Banking, Paylater, and Cardless EMI options.*
 
 ---
 
@@ -89,25 +109,6 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 ### Mobile — Sidebar Navigation
 ![Mobile Sidebar](screenshots/mobile-view1.png)
 *Slide-in sidebar on mobile showing the TalentFlow AI logo, all nav items (Dashboard, Jobs, Candidates, Applications, Interviews, Analytics), Upgrade to Premium CTA, Settings, and API Docs.*
-
----
-
-## Live Demo
-
-| URL | Credentials |
-|---|---|
-| **Frontend** | `https://your-deployment-url.vercel.app` |
-| **API** | `https://your-api-url.onrender.com` |
-
-### Demo Accounts
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@talentflow.ai` | `Admin@123` |
-| Recruiter | `recruiter@talentflow.ai` | `Recruiter@123` |
-| Hiring Manager | `hiring@talentflow.ai` | `Manager@123` |
-
-> Run `node seed.js` inside `backend/api-gateway/` to create these accounts + sample data.
 
 ---
 
@@ -138,8 +139,10 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 - Resume parsing, candidate scoring, keyword extraction, job matching
 
 ### Infrastructure
+- **Railway** — backend API gateway + AI service hosting
+- **Vercel** — frontend hosting
+- **MongoDB Atlas** — managed cloud database
 - **Docker + Docker Compose** — containerised local development
-- **MongoDB 7** — database container
 
 ---
 
@@ -148,17 +151,17 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                     Browser / Mobile                      │
-│              Next.js 14 (Port 3000)                       │
+│   Next.js 14 — talent-flow-ai-the-sunny-sharma.vercel.app│
 └───────────────────────┬─────────────────────────────────┘
                         │ REST (Axios)
 ┌───────────────────────▼─────────────────────────────────┐
-│           Express.js API Gateway (Port 5000)              │
+│      Express.js API Gateway — Railway (Port 5000)         │
 │   Auth · Jobs · Candidates · Applications · Analytics    │
 │   Interviews · Notifications · Payments                  │
 └──────────┬──────────────────────────┬───────────────────┘
            │ Mongoose                  │ HTTP (axios)
 ┌──────────▼──────────┐  ┌────────────▼──────────────────┐
-│   MongoDB (27017)   │  │  FastAPI AI Service (8000)    │
+│   MongoDB Atlas     │  │  FastAPI AI Service — Railway  │
 │   smartats database │  │  /parse-resume                │
 └─────────────────────┘  │  /score-candidate             │
                          │  /match-jobs                  │
@@ -168,7 +171,7 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 
 ---
 
-## Quick Start (Docker — recommended)
+## Quick Start (Docker — recommended for local dev)
 
 ### Prerequisites
 - Docker Desktop installed and running
@@ -182,8 +185,6 @@ cd smart-ats
 ```
 
 ### 2. Create the `.env` file
-
-Copy the example and fill in your keys:
 
 ```bash
 cp .env.example .env
@@ -228,7 +229,7 @@ This starts:
 
 ```bash
 cd smart-ats-frontend
-cp .env.local.example .env.local   # or create manually (see below)
+cp .env.local.example .env.local
 npm install
 npm run dev
 ```
@@ -242,7 +243,7 @@ cd backend/api-gateway
 node seed.js
 ```
 
-This creates 3 user accounts, 3 jobs, 5 candidates, and sample applications with AI scores.
+Creates 3 user accounts, 3 jobs, 5 candidates, and sample applications with AI scores.
 
 ---
 
@@ -253,7 +254,6 @@ This creates 3 user accounts, 3 jobs, 5 candidates, and sample applications with
 ```bash
 cd backend/api-gateway
 npm install
-# Make sure MongoDB is running locally on port 27017
 npm run dev        # starts on port 5000
 ```
 
@@ -277,37 +277,46 @@ npm run dev        # starts on port 3000
 
 ## Environment Variables Reference
 
-### Root `.env` (used by Docker Compose)
+### API Gateway (`backend/api-gateway/.env`)
 
 | Variable | Required | Description |
 |---|---|---|
+| `NODE_ENV` | ✅ | `production` or `development` |
+| `PORT` | — | Server port (default: `5000`) |
+| `MONGODB_URI` | ✅ | MongoDB Atlas connection string |
 | `JWT_SECRET` | ✅ | Secret key for JWT signing (min 32 chars) |
-| `GROQ_API_KEY` | ✅* | Groq API key for AI features (*or OpenRouter) |
-| `OPENROUTER_API_KEY` | ✅* | OpenRouter key (fallback if Groq fails) |
-| `CASHFREE_APP_ID` | ✅ | Cashfree App ID (from dashboard) |
-| `CASHFREE_SECRET_KEY` | ✅ | Cashfree Secret Key |
-| `CASHFREE_ENV` | — | `sandbox` (default) or `production` |
+| `JWT_EXPIRES_IN` | — | Token expiry (default: `7d`) |
+| `AI_SERVICE_URL` | ✅ | URL of the FastAPI AI service |
+| `CLIENT_URL` | ✅ | Frontend URL for CORS |
 | `GMAIL_USER` | — | Gmail address for email automation |
 | `GMAIL_APP_PASS` | — | Gmail 16-char App Password |
-| `CLIENT_URL` | — | Frontend URL (default: `http://localhost:3000`) |
-| `API_URL` | — | Backend URL (default: `http://localhost:5000`) |
-| `MONGO_ROOT_USER` | — | MongoDB root user (default: `admin`) |
-| `MONGO_ROOT_PASSWORD` | — | MongoDB root password (default: `secret`) |
+| `CASHFREE_APP_ID` | ✅ | Cashfree App ID |
+| `CASHFREE_SECRET_KEY` | ✅ | Cashfree Secret Key |
+| `CASHFREE_ENV` | — | `sandbox` (default) or `production` |
 
-### Frontend `.env.local`
+### AI Service (`backend/ai-service/.env`)
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-NEXT_PUBLIC_APP_NAME=TalentFlow AI
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=   # optional — enables Google OAuth button
-NEXTAUTH_SECRET=any_random_string_here
-```
+| Variable | Required | Description |
+|---|---|---|
+| `APP_URL` | — | Frontend URL |
+| `GROQ_API_KEY` | ✅* | Groq API key (*or OpenRouter) |
+| `OPENROUTER_API_KEY` | ✅* | OpenRouter key (fallback if Groq fails) |
+
+### Frontend (`smart-ats-frontend/.env.local`)
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | ✅ | API Gateway base URL (e.g. `https://...railway.app/api`) |
+| `NEXT_PUBLIC_URL` | ✅ | Frontend's own public URL |
+| `NEXT_PUBLIC_APP_NAME` | — | App display name (default: `TalentFlow AI`) |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | — | Enables Google OAuth button |
+| `NEXTAUTH_SECRET` | ✅ | Any random string for NextAuth |
 
 ---
 
 ## API Reference
 
-Base URL: `http://localhost:5000/api`
+Base URL: `https://ai-service-production-645a.up.railway.app/api`
 
 All protected routes require: `Authorization: Bearer <token>`
 
@@ -384,7 +393,7 @@ All protected routes require: `Authorization: Bearer <token>`
 | GET | `/payments/status` | ✅ | Check premium status |
 | POST | `/payments/webhook` | — | Cashfree webhook (signed) |
 
-### AI Service (internal — port 8000)
+### AI Service (FastAPI — internal)
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/parse-resume` | Extract structured profile from resume text |
@@ -453,7 +462,7 @@ smart-ats/
 │   │   └── types/            # TypeScript interfaces
 │   └── package.json
 ├── screenshots/              # UI screenshots for submission
-├── docker-compose.yml        # Orchestrates all services
+├── docker-compose.yml        # Orchestrates local services
 ├── .env.example              # Environment variable template
 └── README.md
 ```
@@ -468,6 +477,20 @@ smart-ats/
 | **OpenRouter** (AI fallback) | https://openrouter.ai | Free models available |
 | **Cashfree** (payments) | https://merchant.cashfree.com | Full sandbox |
 | **Gmail App Password** | https://myaccount.google.com/apppasswords | Free |
+| **MongoDB Atlas** | https://www.mongodb.com/atlas | 512 MB free tier |
+| **Railway** | https://railway.app | $5 free credit/month |
+| **Vercel** | https://vercel.com | Generous free tier |
+
+---
+
+## Deployment
+
+| Service | Platform | Notes |
+|---|---|---|
+| Frontend | Vercel | Auto-deploys on push to `main` |
+| API Gateway | Railway | Set all env vars from the reference table above |
+| AI Service | Railway | Set `GROQ_API_KEY` + `OPENROUTER_API_KEY` |
+| Database | MongoDB Atlas | Free M0 cluster; whitelist `0.0.0.0/0` for Railway |
 
 ---
 
@@ -475,6 +498,8 @@ smart-ats/
 
 - **Assignment:** Namaah Pvt Ltd — Full Stack Intern Technical Assignment
 - **Platform:** Smart ATS Hiring Suite / TalentFlow AI
-- **Stack:** Next.js 14 + Express.js + MongoDB + FastAPI + Groq AI
+- **Stack:** Next.js 14 + Express.js + MongoDB Atlas + FastAPI + Groq AI
+- **Deployed Frontend:** https://talent-flow-ai-the-sunny-sharma.vercel.app
+- **Deployed API:** https://ai-service-production-645a.up.railway.app
 - **Submitted by:** Sunny Yogendra Sharma
 - **Date:** May 2026
