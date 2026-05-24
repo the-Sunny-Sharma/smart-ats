@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // Routes that don't require auth
-const PUBLIC_PATHS = ['/login', '/register', '/docs'];
+const PUBLIC_PATHS = ['/login', '/register', '/docs', '/'];
 
 // Routes that are always public regardless (landing, etc.)
 const PUBLIC_PREFIXES = ['/landing', '/_next', '/favicon', '/api'];

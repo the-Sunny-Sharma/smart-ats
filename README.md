@@ -8,13 +8,87 @@ A production-grade Applicant Tracking System with AI resume parsing, semantic ca
 
 ## Screenshots
 
-| Dashboard | Candidate Pipeline | AI Score Detail |
-|---|---|---|
-| ![Dashboard](screenshots/dashboard.png) | ![Pipeline](screenshots/pipeline.png) | ![AI Score](screenshots/ai-score.png) |
+### Landing Page
+![Landing Page](screenshots/landing.png)
+*Public marketing page with "Hire Smarter with AI" hero, feature highlights, pricing, and CTA buttons.*
 
-| Analytics | Resume Upload | Mobile View |
-|---|---|---|
-| ![Analytics](screenshots/analytics.png) | ![Resume Upload](screenshots/resume-upload.png) | ![Mobile](screenshots/mobile.png) |
+---
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+*Recruitment command centre — live KPIs (Open Jobs, Total Candidates, Applications, Interviews, Shortlisted, Hired, Conversion Rate, App Growth), Applications Over Time line chart, Pipeline Funnel bar chart, and Top Jobs by Applications.*
+
+---
+
+### Jobs
+![Jobs](screenshots/jobs.png)
+*Job board with card layout — department, location, work mode, experience range, required skills, application count, and status badge (open / paused). One-click "Post Job" and per-card Edit / View apps actions.*
+
+---
+
+### Applications — Kanban Pipeline
+![Applications Kanban](screenshots/applications-kanban.png)
+*Kanban-style pipeline grouping all applications by stage (Applied → Screening → Interview → Offer → Hired → Rejected). Each card shows candidate name, role, AI score out of 100, recommendation label, and applied date. Filter tabs show per-stage counts.*
+
+---
+
+### Application Detail — AI Assessment
+![Resume Parsing & AI Score](screenshots/resume-parsing.png)
+*Individual application view with the full AI Assessment panel: circular score gauge, skill-match verdict (Yes / Maybe / No), plain-English explanation, sub-scores for Skill Match / Experience / Education, matched skills chips (green), missing skills chips (red), pipeline stage selector with history, and one-click Shortlist / Schedule Interview actions.*
+
+---
+
+### Semantic Ranking
+![Semantic Ranking](screenshots/semantic-ranking.png)
+*Per-job AI ranking tab — candidates ordered by semantic similarity score (all-MiniLM-L6-v2 · cosine distance). Shows rank, candidate name & email, semantic score bar, AI score badge (Excellent / Good / …), current stage, and top matched skills.*
+
+---
+
+### Candidate Profile
+![Candidate Profile](screenshots/candidate.png)
+*Full candidate profile: avatar, bio, contact details (email, phone, location, LinkedIn, GitHub), experience in years, source, and date added. Right panel shows Skills chips, Experience timeline, Education, and linked Applications with current stage.*
+
+---
+
+### Upload Resume Modal
+![Upload Resume Modal](screenshots/upload-modal.png)
+*"Add Candidate" modal with two tabs — Manual Entry and Upload Resume. The upload tab has a drag-and-drop zone (PDF, DOC, DOCX up to 5 MB) and auto-populates Full Name and Email fields after AI parsing.*
+
+---
+
+### Interviews
+![Interviews](screenshots/interviews.png)
+*Upcoming interviews list with candidate avatar, name, role, department, scheduled date/time, duration, format (phone / video / in person), round label, and one-click confirm (✓) or cancel (✗). Video interviews show a "Join Meeting" link.*
+
+---
+
+### Analytics
+![Analytics](screenshots/analytics.png)
+*Analytics dashboard: top-line KPIs (Conversion Rate, Total Hired, Shortlisted, App Growth), Applications Over Time area chart, Pipeline Distribution bar chart, Candidate Sources pie chart (upload / LinkedIn / referral / manual), and AI Score Distribution histogram.*
+
+---
+
+### Premium Upgrade
+![Premium](screenshots/premium.png)
+*Premium upgrade page — TalentFlow Premium plan card (₹999/month) listing all AI features (resume parsing, fit scores, skill gap analysis, smart shortlisting, keyword extraction, duplicate detection, full analytics, priority support), with a purchase panel powered by Cashfree Payments.*
+
+---
+
+### Cashfree Checkout
+![Payment](screenshots/payment.png)
+*Cashfree sandbox checkout showing ₹999 order for testMerchantName — UPI QR, Pay by UPI ID, Card (Visa/Mastercard/RuPay), Wallets, Net Banking, Paylater, and Cardless EMI options.*
+
+---
+
+### Mobile — Dashboard
+![Mobile Dashboard](screenshots/mobile-view2.png)
+*Fully responsive mobile dashboard (390 px) — 2-column metric grid (Open Jobs, Total Candidates, Applications, Interviews, Shortlisted, Hired, Conversion Rate, App Growth) and Applications Over Time chart.*
+
+---
+
+### Mobile — Sidebar Navigation
+![Mobile Sidebar](screenshots/mobile-view1.png)
+*Slide-in sidebar on mobile showing the TalentFlow AI logo, all nav items (Dashboard, Jobs, Candidates, Applications, Interviews, Analytics), Upgrade to Premium CTA, Settings, and API Docs.*
 
 ---
 
