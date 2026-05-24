@@ -7,18 +7,18 @@ import { useAuthStore } from '@/lib/auth.store';
 import { Loader2, Eye, EyeOff, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: object) => void;
-          renderButton: (el: HTMLElement, config: object) => void;
-        };
-      };
-    };
-  }
-}
+// declare global {
+//   interface Window {
+//     google?: {
+//       accounts: {
+//         id: {
+//           initialize: (config: object) => void;
+//           renderButton: (el: HTMLElement, config: object) => void;
+//         };
+//       };
+//     };
+//   }
+// }
 
 export default function RegisterPage() {
   const router = useRouter();

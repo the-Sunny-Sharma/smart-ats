@@ -8,19 +8,19 @@ import { useAuthStore } from '@/lib/auth.store';
 import { Briefcase, Loader2 } from 'lucide-react';
 
 // ── Google Identity Services type shim ───────────────────────────────────────
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: object) => void;
-          renderButton: (el: HTMLElement, config: object) => void;
-          prompt: () => void;
-        };
-      };
-    };
-  }
-}
+// declare global {
+//   interface Window {
+//     google?: {
+//       accounts: {
+//         id: {
+//           initialize: (config: object) => void;
+//           renderButton: (el: HTMLElement, config: object) => void;
+//           prompt: () => void;
+//         };
+//       };
+//     };
+//   }
+// }
 
 export default function LoginPage() {
   const router = useRouter();
@@ -122,7 +122,10 @@ export default function LoginPage() {
         <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-600 rounded-xl mb-4">
           <Briefcase className="w-6 h-6 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">SmartATS</h1>
+        {/* <h1 className="text-2xl font-bold text-slate-900">SmartATS</h1> */}
+        <span className="text-xl font-bold text-slate-900">
+              TalentFlow <span className="text-indigo-600">AI</span>
+            </span>
         <p className="text-slate-500 text-sm mt-1">Sign in to your account</p>
       </div>
 
