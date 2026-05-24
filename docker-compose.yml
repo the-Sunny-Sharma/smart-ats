@@ -1,0 +1,86 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: smart-ats-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-secret}
+      MONGO_INITDB_DATABASE: smartats
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ats-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  express-api:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    container_name: smart-ats-api
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://admin:secret@mongodb:27017/smartats?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-supersecretjwtkey_changeme}
+      JWT_EXPIRES_IN: 7d
+      AI_SERVICE_URL: http://ai-service:8000
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:3000}
+      API_URL: ${API_URL:-http://localhost:5000}
+
+      # ── Email (Gmail SMTP) ──────────────────────────────
+      GMAIL_USER: ${GMAIL_USER}
+      GMAIL_APP_PASS: ${GMAIL_APP_PASS}
+
+      # ── Cashfree Payments ───────────────────────────────
+      CASHFREE_APP_ID: ${CASHFREE_APP_ID}
+      CASHFREE_SECRET_KEY: ${CASHFREE_SECRET_KEY}
+      CASHFREE_ENV: ${CASHFREE_ENV:-sandbox}
+
+      # ── Auth ────────────────────────────────────────────
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./backend/api-gateway:/app
+      - /app/node_modules
+    networks:
+      - ats-network
+
+  ai-service:
+    build:
+      context: ./backend/ai-service
+      dockerfile: Dockerfile
+    container_name: smart-ats-ai
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      EXPRESS_API_URL: http://express-api:5000
+    command: sh -c "pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - ./backend/ai-service:/app
+    networks:
+      - ats-network
+
+volumes:
+  mongo_data:
+
+networks:
+  ats-network:
+    driver: bridge
