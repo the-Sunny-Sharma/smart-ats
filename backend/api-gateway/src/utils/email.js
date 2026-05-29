@@ -32,10 +32,20 @@ const getTransporter = () => {
     return null;
   }
 
+  // _transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: { user, pass },
+  // });
+
   _transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user, pass },
-  });
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,        // STARTTLS, not SSL
+  auth: {
+    user,
+    pass,
+  },
+});
 
   return _transporter;
 };
